@@ -3,12 +3,16 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import Navbar from '@/components/navbar';
 import Auth from "@/pages/auth";
 import Home from "@/pages/home";
+import { GlobalState } from "./context/GlobalContext";
+import { MemoryState } from "./context/MemoryContext";
 
 function App() {
 
   return (
     <>
       <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_AUTH_CLIENT}>
+      <GlobalState>
+      <MemoryState>
       <Navbar />
       <Router>
           <Routes>
@@ -17,6 +21,8 @@ function App() {
             {/* <Route path="*" element={<Home />} /> */}
           </Routes>
       </Router>
+      </MemoryState>
+      </GlobalState>
     </GoogleOAuthProvider>
     </>
   )
