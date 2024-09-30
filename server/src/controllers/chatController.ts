@@ -3,9 +3,8 @@ dotenv.config();
 
 import User from "../models/user";
 import { Request, Response } from "express";
-import { convertMessages } from "../utils/helper";
+import { convertMessages, generateSessionId } from "../utils/helper";
 
-const REQ_URL = "https://api.mem0.ai/v1/memories/";
 const TOKEN = process.env.MEM0_GAUTH_TOKEN as string;
 
 const sendChat = async (req: Request, res: Response) => {
@@ -14,12 +13,20 @@ const sendChat = async (req: Request, res: Response) => {
   // Saving req data into a variable
   let { user_id, model, provider, query, session_id } = req.body;
 
+  
+
   try {
     // check if user exists
     //   let user = await User.findById(req.user.id);
     //   if (!user) {
     //     return res.status(400).json({ success, error: "User not found!" });
     //   }
+
+
+    if(!session_id){
+      session_id = await generateSessionId(TOKEN);
+    }
+
     const options = {
       method: "POST",
       headers: {
@@ -86,6 +93,31 @@ const sendChat = async (req: Request, res: Response) => {
   }
 };
 
-// const getConversations = 
+const getConversations = async (req: Request, res: Response) => {
+  let success = false;
+  try{
 
-export { sendChat };
+    const options = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: TOKEN,
+      },
+    };
+    const response = await fetch(
+      `https://api.mem0.ai/api/v1/conversations/`,
+      options
+    );
+
+    const data = await response.json();
+    success = true;
+    return res.json({ success, conversations: data });
+  }catch(error){
+    console.log(error);
+    return res.status(500).json({ success, error: "Internal Server Error!" });
+  }
+}
+
+
+
+export { sendChat, getConversations };

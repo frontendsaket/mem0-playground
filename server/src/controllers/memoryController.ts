@@ -60,4 +60,62 @@ const addMemory = async (req: Request, res: Response) => {
   } catch (error) {}
 };
 
-export { getMemory, addMemory };
+const deleteMemory = async (req: Request, res: Response) => {
+  let success = false;
+  let { memoryid } = req.query;
+  try {
+    const options = {
+      method: "DELETE",
+      headers: { Authorization: TOKEN, "Content-Type": "application/json" },
+    };
+    const response = await fetch(
+      `https://api.mem0.ai/v1/memories/${memoryid}/`,
+      options
+    );
+    const data = await response.json();
+
+    if (data) {
+      success = true;
+      return res.json({ success, memory: data.memory });
+    } else {
+      success = false;
+      return res.json({ success });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ success, error: "Internal Server Error!" });
+  }
+};
+
+const updateMemory = async (req: Request, res: Response) => {
+    let success = false;
+    let { memoryid, text } = req.body;
+
+    try {
+      const options = {
+        method: "PUT",
+        headers: { Authorization: TOKEN, "Content-Type": "application/json" },
+        body: JSON.stringify({
+            text: text
+        })
+      };
+      const response = await fetch(
+        `https://api.mem0.ai/v1/memories/${memoryid}/`,
+        options
+      );
+      const data = await response.json();
+  
+      if (data) {
+        success = true;
+        return res.json({ success, memories: data });
+      } else {
+        success = false;
+        return res.json({ success });
+      }
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ success, error: "Internal Server Error!" });
+    }
+  };
+
+export { getMemory, addMemory, deleteMemory, updateMemory };
