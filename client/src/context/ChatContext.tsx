@@ -69,6 +69,10 @@ const ChatState = (props: any) => {
     }
   };
 
+  const newChat = ()=>{
+    setConversation([]);
+    setSelectedConversation("");
+  }
 
 
   return (
@@ -81,6 +85,7 @@ const ChatState = (props: any) => {
         conversation,
         selectedConversation,
         setSelectedConversation,
+        newChat
       }}
     >
       {props.children}

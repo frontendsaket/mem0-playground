@@ -6,7 +6,7 @@ import { ChatItemInterface } from "@/types/chat-type";
 import { getDateCategory } from "@/utils/helpers";
 
 const ChatHistory = (props: { expandLeft: boolean }) => {
-  const { getChats, conversations } = useContext(ChatContext);
+  const { getChats, conversations, newChat } = useContext(ChatContext);
 
   useEffect(() => {
     getChats();
@@ -88,7 +88,7 @@ const ChatHistory = (props: { expandLeft: boolean }) => {
             </div>
             <div className="px-2">
               <div className="border border-gray-300 rounded-lg  px-3 py-2 cursor-pointer hover:bg-gray-100">
-                <div className="flex justify-center align-middle gap-4">
+                <div onClick={newChat} className="flex justify-center align-middle gap-4">
                   <FaRegEdit size={20} className="my-auto" />
                   <h1 className="font-medium">New Chat</h1>
                 </div>
