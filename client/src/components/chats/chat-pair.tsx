@@ -21,7 +21,7 @@ const ChatPair = (props: {item: ChatPairInterface}) => {
 
             <div className="flex my-8 items-center">
               <div className="w-1/12">
-                <div className="w-8 h-8 rounded-full overflow-hidden">
+                <div className="w-8 h-8 mr-2 rounded-full overflow-hidden">
                   <Avatar>
                     <AvatarImage
                       src="https://github.com/shadcn.png"
@@ -32,7 +32,7 @@ const ChatPair = (props: {item: ChatPairInterface}) => {
                 </div>
               </div>
               <div className="max-w-11/12 text-sm">
-                <p className="bg-gray-200/40 p-3 rounded-lg">
+                <p className="bg-gray-200/40 rounded-bl-none p-3 rounded-lg">
                   {props.item.answer}
                 </p>
               </div>

@@ -8,6 +8,7 @@ import Dropdown from "./dropdown";
 import ChatContext from "@/context/ChatContext";
 import ChatPair from "./chat-pair";
 import { ChatPairInterface } from "@/types/chat-type";
+import ChatDefault from "./chat-default";
 
 const ChatArea = (props: {
   setExpandLeft: React.Dispatch<React.SetStateAction<boolean>>;
@@ -62,6 +63,9 @@ const ChatArea = (props: {
             
           </div>
           <div className="mb-4">
+            {
+              conversation.length===0&&<ChatDefault name="Saket Aryan" />
+            }
             {
               conversation.map((item: ChatPairInterface, index: number)=>{
                 return <div key={index}>
