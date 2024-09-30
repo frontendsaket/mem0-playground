@@ -1,14 +1,14 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { GoArrowRight } from "react-icons/go";
-import { LuSendHorizonal } from "react-icons/lu";
 import Dropdown from "./dropdown";
 import ChatContext from "@/context/ChatContext";
 import ChatPair from "./chat-pair";
 import { ChatPairInterface } from "@/types/chat-type";
 import ChatDefault from "./chat-default";
+import ChatInput from "./chat-input";
+import ChatPairLoading from "./chat-pair-loading";
 
 const ChatArea = (props: {
   setExpandLeft: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,8 +16,7 @@ const ChatArea = (props: {
   expandLeft: boolean;
   expandRight: boolean;
 }) => {
-  const [message, setMessage] = useState("");
-  const { conversation } = useContext(ChatContext);
+  const { conversation, loadingChat, loadingQuestion } = useContext(ChatContext);
 
   return (
     <>
@@ -59,33 +58,23 @@ const ChatArea = (props: {
             <div className="flex my-auto w-full md:w-auto">
               <Dropdown />
             </div>
-
-            
           </div>
           <div className="mb-4">
-            {
-              conversation.length===0&&<ChatDefault name="Saket Aryan" />
-            }
-            {
-              conversation.map((item: ChatPairInterface, index: number)=>{
-                return <div key={index}>
+            {conversation.length === 0 && !loadingChat && <ChatDefault name="Saket Aryan" />}
+            {conversation.map((item: ChatPairInterface, index: number) => {
+              return (
+                <div key={index}>
                   <ChatPair item={item} />
                 </div>
-              })
+              );
+            })}
+            {
+              loadingChat&&<ChatPairLoading question={loadingQuestion} />
             }
           </div>
         </div>
         <div className="p-4">
-          <div className="flex bg-gray-100 pr-4 rounded-[6rem]">
-            <Input
-              type="text"
-              placeholder="Type a message..."
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              className="flex-1 mr-2 py-6 bg-white border border-gray-200 rounded-[6rem]"
-            />
-            <LuSendHorizonal className="my-auto" size={20} />
-          </div>
+          <ChatInput />
         </div>
       </div>
     </>

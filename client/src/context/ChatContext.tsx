@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { ChatQueryInterface } from "@/types/chat-type";
 import { createContext, useState } from "react";
 const ChatContext = createContext<any>({});
 const url = import.meta.env.VITE_URL;
@@ -7,6 +8,8 @@ const ChatState = (props: any) => {
   const [conversations, setConversations] = useState([]);
   const [conversation, setConversation] = useState([]);
   const [selectedConversation, setSelectedConversation] = useState("");
+  const [loadingChat, setLoadingChat] = useState(false);
+  const [loadingQuestion, setLoadingQuestion] = useState("");
 
   const getChats = async () => {
     try {
@@ -46,21 +49,35 @@ const ChatState = (props: any) => {
     }
   };
 
-  const updateMemory = async (memoryid: string, text: string) => {
+  const sendChat = async (item: ChatQueryInterface ) => {
     try {
-      const response = await fetch(`${url}/api/memory`, {
-        method: "PUT",
+      setLoadingChat(true);
+      setLoadingQuestion(item.query);
+      const requestBody: Partial<ChatQueryInterface> = {};
+      if (item.query) requestBody.query = item.query;
+      if (item.model) requestBody.model = item.model;
+      if (item.provider) requestBody.provider = item.provider;
+      if (item.user_id) requestBody.user_id = item.user_id;
+      if (item.session_id) requestBody.session_id = item.session_id;
+  
+      const response = await fetch(`${url}/api/chat`, {
+        method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          memoryid: memoryid,
-          text: text,
-        }),
+        body: JSON.stringify(requestBody),
       });
+  
       const data = await response.json();
 
       if (data.success) {
-        return true;
+        setConversation(data.conversations);
+        setSelectedConversation(data.session_id);
+        setLoadingChat(false);
+        if(data.newItem){
+          await getChats();
+        }
+        return data.memoryUpdate;
       } else {
+        setLoadingChat(false);
         return false;
       }
     } catch (error) {
@@ -80,12 +97,14 @@ const ChatState = (props: any) => {
       value={{
         getChats,
         getChat,
-        updateMemory,
+        sendChat,
         conversations,
         conversation,
         selectedConversation,
         setSelectedConversation,
-        newChat
+        newChat,
+        loadingChat,
+        loadingQuestion
       }}
     >
       {props.children}

@@ -12,6 +12,7 @@ const MemoryState = (props: any) => {
       const data = await response.json();
 
       if (data.success) {
+        console.log(data);
         setMemories(data.memories);
         return true;
       } else {

@@ -12,6 +12,7 @@ const sendChat = async (req: Request, res: Response) => {
 
   // Saving req data into a variable
   let { user_id, model, provider, query, session_id } = req.body;
+  let newItem = false;
 
   try {
     // check if user exists
@@ -21,6 +22,7 @@ const sendChat = async (req: Request, res: Response) => {
     //   }
 
     if (!session_id) {
+      newItem = true;
       session_id = await generateSessionId(TOKEN);
     }
 
@@ -74,11 +76,13 @@ const sendChat = async (req: Request, res: Response) => {
         options2
       );
       const data2 = await res2.json();
+      
       if (data2.success) {
         success = true;
-        return res.json({ success, conversations: data });
+        return res.json({ success, conversations: data, session_id: session_id, newItem: newItem, memoryUpdate: true });
       } else {
-        return res.json({ success, conversations: data });
+        success = true;
+        return res.json({ success, conversations: data, session_id: session_id, newItem: newItem, memoryUpdate: false });
       }
     } else {
       return res.status(410).json({ success, error: "Something went wrong!" });

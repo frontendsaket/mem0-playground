@@ -29,7 +29,7 @@ const MemoryItem = (props: { item: MemoryItemInterface }) => {
           </span>
         </p>
         <div className="mt-2 flex gap-2">
-          {props.item.categories.map((item, index) => {
+          {props.item.categories&&props.item.categories.map((item, index) => {
             return (
               <Badge key={index} variant="secondary" className="bg-gray-200/80">
                 {item}
