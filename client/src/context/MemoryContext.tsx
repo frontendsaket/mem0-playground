@@ -5,23 +5,28 @@ const url = import.meta.env.VITE_URL;
 
 const MemoryState = (props: any) => {
   const [memories, setMemories] = useState([]);
+  const [loadingMemories, setLoadingMemories] = useState(false);
 
   const getMemories = async (userid: string) => {
     try {
+      setLoadingMemories(true);
       const response = await fetch(`${url}/api/memory?user_id=${userid}`);
       const data = await response.json();
 
       if (data.success) {
         console.log(data);
         setMemories(data.memories);
+        setLoadingMemories(false);
         return true;
       } else {
         setMemories([]);
+        setLoadingMemories(false);
         return false;
       }
     } catch (error) {
       console.log(error);
       setMemories([]);
+      setLoadingMemories(false);
       return false;
     }
   };
@@ -71,7 +76,7 @@ const MemoryState = (props: any) => {
   };
 
   return (
-    <MemoryContext.Provider value={{ getMemories, memories, updateMemory, deleteMemory }}>
+    <MemoryContext.Provider value={{ getMemories, memories, updateMemory, deleteMemory, loadingMemories }}>
       {props.children}
     </MemoryContext.Provider>
   );

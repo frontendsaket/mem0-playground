@@ -5,9 +5,10 @@ import MemoryItem from "./memory-item";
 import { useContext, useEffect } from "react";
 import MemoryContext from "@/context/MemoryContext";
 import { MemoryItemInterface } from "@/types/memory-types";
+import Spinner from "../shared/spinner";
 
 const Memories = (props: { expandLeft: boolean; expandRight: boolean }) => {
-  const {  getMemories, memories } = useContext(MemoryContext);
+  const {  getMemories, memories, loadingMemories } = useContext(MemoryContext);
 
   useEffect(()=>{
     getMemories("saket");
@@ -28,10 +29,15 @@ const Memories = (props: { expandLeft: boolean; expandRight: boolean }) => {
                 Your Memories ({memories.length})
               </h3>
               <div className="flex gap-2 align-middle">
-                <IoReload size={20} className="my-auto cursor-pointer" />
+                <IoReload onClick={()=>getMemories("saket")} size={20} className="my-auto cursor-pointer" />
                 <AiOutlineDelete size={20} className="my-auto cursor-pointer" />
               </div>
             </div>
+            {
+              loadingMemories&&<div className="flex justify-center">
+                <Spinner />
+              </div>
+            }
             <ScrollArea className="h-[calc(100vh-8rem)] overflow-scroll">
               <div className="space-y-4">
                 {

@@ -9,23 +9,28 @@ const ChatState = (props: any) => {
   const [conversation, setConversation] = useState([]);
   const [selectedConversation, setSelectedConversation] = useState("");
   const [loadingChat, setLoadingChat] = useState(false);
+  const [loadingChats, setLoadingChats] = useState(false);
   const [loadingQuestion, setLoadingQuestion] = useState("");
 
   const getChats = async () => {
     try {
+      setLoadingChats(true);
       const response = await fetch(`${url}/api/chats`);
       const data = await response.json();
 
       if (data.success) {
         setConversations(data.conversations);
+        setLoadingChats(false);
         return true;
       } else {
         setConversations([]);
+        setLoadingChats(false);
         return false;
       }
     } catch (error) {
       console.log(error);
       setConversations([]);
+      setLoadingChats(false);
       return false;
     }
   };
@@ -36,7 +41,6 @@ const ChatState = (props: any) => {
       const data = await response.json();
 
       if (data.success) {
-        console.log(data);
         setConversation(data.conversation);
         setSelectedConversation(session_id);
         return true;
@@ -104,7 +108,8 @@ const ChatState = (props: any) => {
         setSelectedConversation,
         newChat,
         loadingChat,
-        loadingQuestion
+        loadingQuestion,
+        loadingChats
       }}
     >
       {props.children}

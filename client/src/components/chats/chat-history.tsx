@@ -4,9 +4,10 @@ import ChatHistoryItem from "./chat-history-item";
 import ChatContext from "@/context/ChatContext";
 import { ChatItemInterface } from "@/types/chat-type";
 import { getDateCategory } from "@/utils/helpers";
+import Spinner from "../shared/spinner";
 
 const ChatHistory = (props: { expandLeft: boolean }) => {
-  const { getChats, conversations, newChat } = useContext(ChatContext);
+  const { getChats, conversations, newChat, loadingChats } = useContext(ChatContext);
 
   useEffect(() => {
     getChats();
@@ -31,6 +32,9 @@ const ChatHistory = (props: { expandLeft: boolean }) => {
       >
         {!props.expandLeft && (
           <>
+          {
+            loadingChats&&<Spinner />
+          }
             <div className="calc(h-full-10rem) overflow-scroll">
               {/* Today's conversations */}
               {todayConversations.length > 0 && (
