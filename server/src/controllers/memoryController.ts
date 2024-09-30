@@ -76,7 +76,7 @@ const deleteMemory = async (req: Request, res: Response) => {
 
     if (data) {
       success = true;
-      return res.json({ success, memory: data.memory });
+      return res.json({ success, memory: data.message });
     } else {
       success = false;
       return res.json({ success });

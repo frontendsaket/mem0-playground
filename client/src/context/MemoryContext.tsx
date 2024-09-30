@@ -9,12 +9,12 @@ const MemoryState = (props: any) => {
 
   const getMemories = async (userid: string) => {
     try {
+      setMemories([]);
       setLoadingMemories(true);
       const response = await fetch(`${url}/api/memory?user_id=${userid}`);
       const data = await response.json();
 
       if (data.success) {
-        console.log(data);
         setMemories(data.memories);
         setLoadingMemories(false);
         return true;
@@ -64,7 +64,7 @@ const MemoryState = (props: any) => {
       const data = await response.json();
 
       if (data.success) {
-        await getMemories(data.memories.user_id);
+        await getMemories("saket");
         return true;
       } else {
         return false;
