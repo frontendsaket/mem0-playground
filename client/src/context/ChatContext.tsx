@@ -5,15 +5,15 @@ const url = import.meta.env.VITE_URL;
 
 const ChatState = (props: any) => {
   const [conversations, setConversations] = useState([]);
-
+  const [conversation, setConversation] = useState([]);
+  const [selectedConversation, setSelectedConversation] = useState("");
 
   const getChats = async () => {
     try {
-      const response = await fetch(`${url}/api/chat`);
+      const response = await fetch(`${url}/api/chats`);
       const data = await response.json();
 
       if (data.success) {
-        console.log(data.conversations);
         setConversations(data.conversations);
         return true;
       } else {
@@ -23,6 +23,24 @@ const ChatState = (props: any) => {
     } catch (error) {
       console.log(error);
       setConversations([]);
+      return false;
+    }
+  };
+
+  const getChat = async (session_id: string) => {
+    try {
+      const response = await fetch(`${url}/api/chat?session_id=${session_id}`);
+      const data = await response.json();
+
+      if (data.success) {
+        console.log(data);
+        // setConversation(data.conversations);
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.log(error);
       return false;
     }
   };
@@ -50,27 +68,20 @@ const ChatState = (props: any) => {
     }
   };
 
-  const getChat = async (memoryid: string) => {
-    try {
-      const response = await fetch(`${url}/api/memory?memoryid=${memoryid}`, {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-      });
-      const data = await response.json();
 
-      if (data.success) {
-        return true;
-      } else {
-        return false;
-      }
-    } catch (error) {
-      console.log(error);
-      return false;
-    }
-  };
 
   return (
-    <ChatContext.Provider value={{ getChats, getChat, updateMemory, conversations }}>
+    <ChatContext.Provider
+      value={{
+        getChats,
+        getChat,
+        updateMemory,
+        conversations,
+        conversation,
+        selectedConversation,
+        setSelectedConversation,
+      }}
+    >
       {props.children}
     </ChatContext.Provider>
   );

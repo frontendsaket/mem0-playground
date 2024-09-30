@@ -13,8 +13,6 @@ const sendChat = async (req: Request, res: Response) => {
   // Saving req data into a variable
   let { user_id, model, provider, query, session_id } = req.body;
 
-  
-
   try {
     // check if user exists
     //   let user = await User.findById(req.user.id);
@@ -22,8 +20,7 @@ const sendChat = async (req: Request, res: Response) => {
     //     return res.status(400).json({ success, error: "User not found!" });
     //   }
 
-
-    if(!session_id){
+    if (!session_id) {
       session_id = await generateSessionId(TOKEN);
     }
 
@@ -72,7 +69,10 @@ const sendChat = async (req: Request, res: Response) => {
         }),
       };
 
-      const res2 = await fetch("http://localhost:9000/api/memory/add", options2);
+      const res2 = await fetch(
+        "http://localhost:9000/api/memory/add",
+        options2
+      );
       const data2 = await res2.json();
       if (data2.success) {
         success = true;
@@ -95,8 +95,7 @@ const sendChat = async (req: Request, res: Response) => {
 
 const getConversations = async (req: Request, res: Response) => {
   let success = false;
-  try{
-
+  try {
     const options = {
       method: "GET",
       headers: {
@@ -112,12 +111,34 @@ const getConversations = async (req: Request, res: Response) => {
     const data = await response.json();
     success = true;
     return res.json({ success, conversations: data });
-  }catch(error){
+  } catch (error) {
     console.log(error);
     return res.status(500).json({ success, error: "Internal Server Error!" });
   }
-}
+};
 
+const getConversation = async (req: Request, res: Response) => {
+  let success = false;
+  const { session_id } = req.query;
+  try {
+    const options = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: TOKEN,
+      },
+    };
+    const response = await fetch(
+      `https://api.mem0.ai/api/v1/conversations/${session_id}`,
+      options
+    );
+    const data = await response.json();
+    success = true;
+    return res.json({ success, conversation: data });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ success, error: "Internal Server Error!" });
+  }
+};
 
-
-export { sendChat, getConversations };
+export { sendChat, getConversations, getConversation };
