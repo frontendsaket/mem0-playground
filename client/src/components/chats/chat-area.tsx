@@ -1,11 +1,13 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { GoArrowRight } from "react-icons/go";
 import { LuSendHorizonal } from "react-icons/lu";
 import Dropdown from "./dropdown";
+import ChatContext from "@/context/ChatContext";
+import ChatPair from "./chat-pair";
+import { ChatPairInterface } from "@/types/chat-type";
 
 const ChatArea = (props: {
   setExpandLeft: React.Dispatch<React.SetStateAction<boolean>>;
@@ -14,6 +16,7 @@ const ChatArea = (props: {
   expandRight: boolean;
 }) => {
   const [message, setMessage] = useState("");
+  const { conversation } = useContext(ChatContext);
 
   return (
     <>
@@ -59,41 +62,13 @@ const ChatArea = (props: {
             
           </div>
           <div className="mb-4">
-            <div className="flex items-center justify-end text-sm">
-              <p className="bg-gray-200/40 p-3 rounded-lg">
-                What do you remember about me?
-              </p>
-              <div className="w-8 h-8 mx-4 rounded-full overflow-hidden">
-                <Avatar>
-                  <AvatarImage
-                    src="https://github.com/shadcn.png"
-                    alt="@shadcn"
-                  />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-              </div>
-            </div>
-
-            <div className="flex my-8 items-center">
-              <div className="w-1/12">
-                <div className="w-8 h-8 rounded-full overflow-hidden">
-                  <Avatar>
-                    <AvatarImage
-                      src="https://github.com/shadcn.png"
-                      alt="@shadcn"
-                    />
-                    <AvatarFallback>CN</AvatarFallback>
-                  </Avatar>
+            {
+              conversation.map((item: ChatPairInterface, index: number)=>{
+                return <div key={index}>
+                  <ChatPair item={item} />
                 </div>
-              </div>
-              <div className="w-11/12 text-sm">
-                <p className="bg-gray-200/40 p-3 rounded-lg">
-                  I remember that you sometimes work with coding. If there's
-                  anything specific you'd like to discuss or any projects you
-                  need help with, feel free to let me know!
-                </p>
-              </div>
-            </div>
+              })
+            }
           </div>
         </div>
         <div className="p-4">

@@ -34,7 +34,8 @@ const ChatState = (props: any) => {
 
       if (data.success) {
         console.log(data);
-        // setConversation(data.conversations);
+        setConversation(data.conversation);
+        setSelectedConversation(session_id);
         return true;
       } else {
         return false;

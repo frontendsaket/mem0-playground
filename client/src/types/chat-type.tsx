@@ -5,4 +5,15 @@ interface ChatItemInterface {
   updated_at: number;
 }
 
-export type { ChatItemInterface };
+interface ChatPairInterface {
+    answer: string;
+    created_at: number;
+    id: number;
+    model: string;
+    provider: string;
+    question: string;
+    updated_at: number;
+  }
+  
+
+export type { ChatItemInterface, ChatPairInterface };
