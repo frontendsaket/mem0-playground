@@ -1,5 +1,5 @@
 import ChatArea from "@/components/chat-area";
-import ChatHistory from "@/components/chat-history";
+import ChatHistory from "@/components/chats/chat-history";
 import Memories from "@/components/memories/memories";
 import Menu from "@/components/menu";
 import { useState } from "react";

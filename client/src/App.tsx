@@ -5,6 +5,7 @@ import Auth from "@/pages/auth";
 import Home from "@/pages/home";
 import { GlobalState } from "./context/GlobalContext";
 import { MemoryState } from "./context/MemoryContext";
+import { ChatState } from "./context/ChatContext";
 
 function App() {
 
@@ -13,6 +14,7 @@ function App() {
       <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_AUTH_CLIENT}>
       <GlobalState>
       <MemoryState>
+      <ChatState>
       <Navbar />
       <Router>
           <Routes>
@@ -21,6 +23,7 @@ function App() {
             {/* <Route path="*" element={<Home />} /> */}
           </Routes>
       </Router>
+      </ChatState>
       </MemoryState>
       </GlobalState>
     </GoogleOAuthProvider>

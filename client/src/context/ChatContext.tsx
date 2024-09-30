@@ -13,6 +13,7 @@ const ChatState = (props: any) => {
       const data = await response.json();
 
       if (data.success) {
+        console.log(data.conversations);
         setConversations(data.conversations);
         return true;
       } else {
@@ -69,7 +70,7 @@ const ChatState = (props: any) => {
   };
 
   return (
-    <ChatContext.Provider value={{ getChats, conversations }}>
+    <ChatContext.Provider value={{ getChats, getChat, updateMemory, conversations }}>
       {props.children}
     </ChatContext.Provider>
   );

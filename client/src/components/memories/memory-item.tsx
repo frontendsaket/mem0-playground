@@ -1,18 +1,14 @@
 import { Badge } from "@/components/ui/badge";
 import { MemoryItemInterface } from "@/types/memory-types";
 import { CiClock1 } from "react-icons/ci";
-import { DateTime } from "luxon";
 import { useState } from "react";
 import MemoryModal from "./memory-modal";
+import { convertToCustomFormat } from "@/utils/helpers";
 
 const MemoryItem = (props: { item: MemoryItemInterface }) => {
   const [showModal, setShowModal] = useState(false);
 
-  function convertToCustomFormat(dateString: string): string {
-    const parsedDate = DateTime.fromISO(dateString);
-    const formattedDate = parsedDate.toFormat("dd/MM/yyyy, HH:mm:ss");
-    return formattedDate;
-  }
+  
 
   const handleShowModal = (value: boolean) => {
     setShowModal(value);
