@@ -9,6 +9,7 @@ import { ChatPairInterface } from "@/types/chat-type";
 import ChatDefault from "./chat-default";
 import ChatInput from "./chat-input";
 import ChatPairLoading from "./chat-pair-loading";
+import Spinner from "../shared/spinner";
 
 const ChatArea = (props: {
   setExpandLeft: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,7 +17,7 @@ const ChatArea = (props: {
   expandLeft: boolean;
   expandRight: boolean;
 }) => {
-  const { conversation, loadingChat, loadingQuestion } = useContext(ChatContext);
+  const { conversation, loadingChat, loadingQuestion, loadingSelectedChats } = useContext(ChatContext);
 
   return (
     <>
@@ -59,8 +60,13 @@ const ChatArea = (props: {
               <Dropdown />
             </div>
           </div>
+          { loadingSelectedChats&&
+            <div className="flex justify-center"> 
+              <Spinner />
+            </div>
+          }
           <div className="mb-4">
-            {conversation.length === 0 && !loadingChat && <ChatDefault name="Saket Aryan" />}
+            {conversation.length === 0 && !loadingChat && !loadingSelectedChats && <ChatDefault name="Saket Aryan" />}
             {conversation.map((item: ChatPairInterface, index: number) => {
               return (
                 <div key={index}>
