@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef } from "react";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 import { RxCross2 } from "react-icons/rx";
 import { MemoryItemInterface } from "@/types/memory-types";
 import MemoryContext from "@/context/MemoryContext";
