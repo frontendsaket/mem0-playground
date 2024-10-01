@@ -1,6 +1,6 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "../ui/button";
-import { useContext, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { GoArrowRight } from "react-icons/go";
 import ChatContext from "@/context/ChatContext";
 import ChatPair from "./chat-pair";
@@ -21,6 +21,13 @@ const ChatArea = (props: {
   const { conversation, loadingChat, loadingQuestion, loadingSelectedChats, selectedUserid, setSelectedUserid } = useContext(ChatContext);
 
   const textRef = useRef<HTMLInputElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [conversation, loadingChat, loadingSelectedChats]);
 
   const handleSelectUserId = ()=>{
     if(!textRef.current!.value) return;
@@ -59,8 +66,7 @@ const ChatArea = (props: {
             <ChevronRight className="h-4 w-4" />
           )}
         </Button>
-        <div className="flex-1 p-4 overflow-auto">
-          <div className="flex flex-col md:flex-row justify-end gap-2 md:gap-6 mb-4">
+        <div className="flex flex-col md:flex-row justify-end gap-2 md:gap-6 mt-2 mb-1">
             <div className="flex">
               <input
                 className="border px-2 py-1 w-full border-gray-300 rounded-md pr-8 focus:outline-none"
@@ -76,6 +82,7 @@ const ChatArea = (props: {
               <SearchBar />
             </div>
           </div>
+        <div className="flex-1 p-4 overflow-auto" ref={scrollRef}>
           { loadingSelectedChats&&
             <div className="flex justify-center"> 
               <Spinner />
