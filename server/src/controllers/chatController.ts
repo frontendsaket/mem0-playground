@@ -54,11 +54,15 @@ const sendChat = async (req: Request, res: Response) => {
           Authorization: TOKEN,
         },
       };
-      const conversations = await fetch(
-        `https://api.mem0.ai/api/v1/conversations/${session_id}`,
-        opts
-      );
-      const data = await conversations.json();
+      let lastItem = { answer: "" };
+      let data:any = [];
+      do {
+        const response = await fetch(`https://api.mem0.ai/api/v1/conversations/${session_id}`, opts);
+        data = await response.json();
+        lastItem = data[data.length - 1];
+        console.log("call")
+      } while (lastItem && lastItem.answer === "")
+
       const messages = convertMessages(data);
       const options2 = {
         method: "POST",
