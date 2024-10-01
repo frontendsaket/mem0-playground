@@ -1,8 +1,7 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "../ui/button";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { GoArrowRight } from "react-icons/go";
-import Dropdown from "./dropdown";
 import ChatContext from "@/context/ChatContext";
 import ChatPair from "./chat-pair";
 import { ChatPairInterface } from "@/types/chat-type";
@@ -10,6 +9,8 @@ import ChatDefault from "./chat-default";
 import ChatInput from "./chat-input";
 import ChatPairLoading from "./chat-pair-loading";
 import Spinner from "../shared/spinner";
+import SearchBar from "./search-bar";
+import { RxCross2 } from "react-icons/rx";
 
 const ChatArea = (props: {
   setExpandLeft: React.Dispatch<React.SetStateAction<boolean>>;
@@ -17,7 +18,19 @@ const ChatArea = (props: {
   expandLeft: boolean;
   expandRight: boolean;
 }) => {
-  const { conversation, loadingChat, loadingQuestion, loadingSelectedChats } = useContext(ChatContext);
+  const { conversation, loadingChat, loadingQuestion, loadingSelectedChats, selectedUserid, setSelectedUserid } = useContext(ChatContext);
+
+  const textRef = useRef<HTMLInputElement>(null);
+
+  const handleSelectUserId = ()=>{
+    if(!textRef.current!.value) return;
+    setSelectedUserid(textRef.current!.value);
+  }
+
+  const handleClear = ()=>{
+    textRef.current!.value="";
+    setSelectedUserid(null);
+  }
 
   return (
     <>
@@ -52,12 +65,15 @@ const ChatArea = (props: {
               <input
                 className="border px-2 py-1 w-full border-gray-300 rounded-md pr-8 focus:outline-none"
                 placeholder="User Id"
+                ref={textRef}
               />
-              <GoArrowRight size={20} className="-ml-8 my-auto text-gray-400" />
+              {
+                selectedUserid!==null?<RxCross2 onClick={handleClear} size={20} className="-ml-8 my-auto text-gray-400" />:<GoArrowRight onClick={handleSelectUserId} size={20} className="-ml-8 my-auto text-gray-400" />
+              }
             </div>
 
             <div className="flex my-auto w-full md:w-auto">
-              <Dropdown />
+              <SearchBar />
             </div>
           </div>
           { loadingSelectedChats&&

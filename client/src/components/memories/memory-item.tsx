@@ -19,7 +19,7 @@ const MemoryItem = (props: { item: MemoryItemInterface }) => {
       {
         showModal&&<MemoryModal handleShowModal={handleShowModal} item={props.item} />
       }
-      <div onClick={()=>handleShowModal(true)} className="bg-gray-50 p-3 border-b">
+      <div onClick={()=>handleShowModal(true)} className="bg-gray-50 p-3 border-b hover:bg-gray-200/40 cursor-pointer">
         <h4 className="font-medium my-1">{props.item.memory}</h4>
         <p className="text-sm text-gray-400 flex gap-1 align-middle my-1">
           <CiClock1 className="text-gray-600 my-auto" />{" "}

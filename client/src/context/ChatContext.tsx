@@ -12,6 +12,10 @@ const ChatState = (props: any) => {
   const [loadingChats, setLoadingChats] = useState(false);
   const [loadingSelectedChats, setLoadingSelectedChats] = useState(false);
   const [loadingQuestion, setLoadingQuestion] = useState("");
+  const [selectedModel, setSelectedModel] = useState<string>("gpt-40-mini");
+  const [selectedProvider, setSelectedProvider] = useState<string>("OpenAI");
+  const [selectedUserid, setSelectedUserid] = useState<string|null>(null);
+
 
   const getChats = async () => {
     try {
@@ -65,8 +69,8 @@ const ChatState = (props: any) => {
       setLoadingQuestion(item.query);
       const requestBody: Partial<ChatQueryInterface> = {};
       if (item.query) requestBody.query = item.query;
-      if (item.model) requestBody.model = item.model;
-      if (item.provider) requestBody.provider = item.provider;
+      if (selectedModel) requestBody.model = selectedModel;
+      if (selectedProvider) requestBody.provider = selectedProvider;
       if (item.user_id) requestBody.user_id = item.user_id;
       if (item.session_id) requestBody.session_id = item.session_id;
   
@@ -116,7 +120,13 @@ const ChatState = (props: any) => {
         loadingChat,
         loadingQuestion,
         loadingChats,
-        loadingSelectedChats
+        loadingSelectedChats,
+        selectedModel,
+        setSelectedModel,
+        selectedProvider,
+        setSelectedProvider,
+        selectedUserid,
+        setSelectedUserid
       }}
     >
       {props.children}
