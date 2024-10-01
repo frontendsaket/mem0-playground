@@ -6,6 +6,7 @@ import { Request, Response } from "express";
 import { convertMessages, generateSessionId } from "../utils/helper";
 
 const TOKEN = process.env.MEM0_GAUTH_TOKEN as string;
+const SERVER = process.env.SERVER_URL as string;
 
 const sendChat = async (req: Request, res: Response) => {
   let success = false;
@@ -72,7 +73,7 @@ const sendChat = async (req: Request, res: Response) => {
       };
 
       const res2 = await fetch(
-        "http://localhost:9000/api/memory/add",
+        `${SERVER}/api/memory/add`,
         options2
       );
       const data2 = await res2.json();
