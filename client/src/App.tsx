@@ -15,12 +15,12 @@ function App() {
       <GlobalState>
       <MemoryState>
       <ChatState>
-      <Navbar />
       <Router>
+      <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/auth" element={<Auth />} />
-            {/* <Route path="*" element={<Home />} /> */}
+            <Route path="*" element={<Home />} />
           </Routes>
       </Router>
       </ChatState>

@@ -66,7 +66,7 @@ const ChatArea = (props: {
             <ChevronRight className="h-4 w-4" />
           )}
         </Button>
-        <div className="flex flex-col md:flex-row justify-end gap-2 md:gap-6 mt-2 mb-1">
+        <div className="flex flex-col md:flex-row justify-end gap-2 md:gap-6 mt-2 mb-1 px-6 md:px-2">
             <div className="flex">
               <input
                 className="border px-2 py-1 w-full border-gray-300 rounded-md pr-8 focus:outline-none"
@@ -78,7 +78,7 @@ const ChatArea = (props: {
               }
             </div>
 
-            <div className="flex my-auto w-full md:w-auto">
+            <div className="flex my-auto w-full md:w-auto justify-center">
               <SearchBar />
             </div>
           </div>

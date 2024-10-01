@@ -9,15 +9,24 @@ const Home = () => {
   const [expandRight, setExpandRight] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const [showMemories, setShowMemories] = useState(false);
+  // const [showConfig, setShowConfig] = useState(false);
+
+  // const handleShowConfig = ()=>{
+  //   setShowConfig(!setShowConfig);
+  //   setShowHistory(false);
+  //   setShowMemories(false);
+  // }
 
   const handlShowHistory = () => {
     setShowHistory(!showHistory);
     setShowMemories(false);
+    // setShowConfig(false);
   };
 
   const handleShowMemories = () => {
     setShowMemories(!showMemories);
     setShowHistory(false);
+    // setShowConfig(false);
   };
 
 

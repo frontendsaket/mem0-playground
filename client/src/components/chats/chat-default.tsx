@@ -6,7 +6,7 @@ const ChatDefault = (props: { name: string }) => {
       <div className="w-1/12">
         <div className="w-8 h-8 mr-2 rounded-full overflow-hidden">
           <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+            <AvatarImage src="mem0_logo.jpeg" alt="@shadcn" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
         </div>

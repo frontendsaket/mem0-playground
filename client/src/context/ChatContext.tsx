@@ -12,7 +12,7 @@ const ChatState = (props: any) => {
   const [loadingChats, setLoadingChats] = useState(false);
   const [loadingSelectedChats, setLoadingSelectedChats] = useState(false);
   const [loadingQuestion, setLoadingQuestion] = useState("");
-  const [selectedModel, setSelectedModel] = useState<string>("gpt-40-mini");
+  const [selectedModel, setSelectedModel] = useState<string>("gpt-4o-mini");
   const [selectedProvider, setSelectedProvider] = useState<string>("OpenAI");
   const [selectedUserid, setSelectedUserid] = useState<string|null>(null);
 
