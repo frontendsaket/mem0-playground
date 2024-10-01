@@ -2,6 +2,14 @@ import { ChatPairInterface } from "@/types/chat-type";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 
 const ChatPair = (props: { item: ChatPairInterface }) => {
+  // Function to convert **bold** syntax and \n to <br /> tags
+  const formatAnswer = (answer: string) => {
+    // Replace **text** with <strong>text</strong> and \n with <br>
+    return answer
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // Bold formatting
+      .replace(/\n/g, "<br />"); // Line breaks
+  };
+
   return (
     <>
       <div className="flex items-center justify-end text-sm">
@@ -24,9 +32,11 @@ const ChatPair = (props: { item: ChatPairInterface }) => {
           </div>
         </div>
         <div className="max-w-11/12 text-sm">
-          <p className="bg-gray-200/40 rounded-bl-none p-3 rounded-lg">
-            {props.item.answer}
-          </p>
+          {/* Use dangerouslySetInnerHTML to render formatted HTML content */}
+          <p
+            className="bg-gray-200/40 rounded-bl-none p-3 rounded-lg"
+            dangerouslySetInnerHTML={{ __html: formatAnswer(props.item.answer) }}
+          />
         </div>
       </div>
     </>
